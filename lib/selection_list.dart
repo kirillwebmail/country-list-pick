@@ -86,7 +86,7 @@ class _SelectionListState extends State<SelectionList> {
             children: <Widget>[
               CustomScrollView(
                 controller: _controllerScroll,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
