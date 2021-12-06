@@ -239,7 +239,7 @@ class _SelectionListState extends State<SelectionList> {
   _scrollListener() {
     int scrollPosition =
         (_controllerScroll!.position.pixels / _itemsizeheight).round();
-    if (scrollPosition < countries.length) {
+    if (scrollPosition < countries.length && scrollPosition > -1) {
       String? countryName = countries.elementAt(scrollPosition).name;
       setState(() {
         posSelected =
