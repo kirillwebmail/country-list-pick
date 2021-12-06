@@ -88,32 +88,6 @@ class _SelectionListState extends State<SelectionList> {
                 controller: _controllerScroll,
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: ListTile(
-                              leading: Image.asset(
-                                widget.initialSelection!.flagUri!,
-                                package: 'country_list_pick',
-                                width: 32.0,
-                              ),
-                              title: Text(widget.initialSelection!.name!),
-                              trailing: Padding(
-                                padding: const EdgeInsets.only(right: 20.0),
-                                child: Icon(Icons.check, color: Colors.green),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                      ],
-                    ),
-                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return widget.countryBuilder != null
