@@ -43,7 +43,7 @@ class _SelectionListState extends State<SelectionList> {
   var _itemsizeheight = 50.0;
   double _offsetContainer = 0.0;
 
-  bool isShow = true;
+  bool isShow = false;
 
   @override
   void initState() {
