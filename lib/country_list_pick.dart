@@ -1,8 +1,10 @@
 import 'package:country_list_pick/country_selection_theme.dart';
+import 'package:country_list_pick/custom_botom_sheet.dart';
 import 'package:country_list_pick/selection_list.dart';
 import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:country_list_pick/support/code_country.dart';
 import 'package:country_list_pick/support/code_countrys.dart';
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 import 'support/code_country.dart';
@@ -74,10 +76,46 @@ class _CountryListPickState extends State<CountryListPick> {
 
   void _awaitFromSelectScreen(BuildContext context, PreferredSizeWidget? appBar,
       CountryTheme? theme) async {
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SelectionList(
+    launchSelectCountryScreen(context, theme);
+    // final result = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => SelectionList(
+    //         elements,
+    //         selectedItem,
+    //         appBar: widget.appBar ??
+    //             AppBar(
+    //               backgroundColor: Theme.of(context).appBarTheme.color,
+    //               title: Text("Select Country"),
+    //             ),
+    //         theme: theme,
+    //         countryBuilder: widget.countryBuilder,
+    //         useUiOverlay: widget.useUiOverlay,
+    //         useSafeArea: widget.useSafeArea,
+    //       ),
+    //     ));
+    //
+    // setState(() {
+    //   selectedItem = result ?? selectedItem;
+    //   widget.onChanged!(result ?? selectedItem);
+    // });
+  }
+
+  Future<void> launchSelectCountryScreen(BuildContext context, CountryTheme? theme) async {
+    final result = await showCustomMaterialModalBottomSheet(
+      context: context,
+      shape: FigmaSquircleConst.bottomSheetShape,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      backgroundColor: Colors.transparent,
+      duration: Duration(milliseconds: 300),
+      builder: (context) => SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(top: 8.0),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: ShapeDecoration(
+            shape: FigmaSquircleConst.bottomSheetShape,
+          ),
+          child: SelectionList(
             elements,
             selectedItem,
             appBar: widget.appBar ??
@@ -90,8 +128,10 @@ class _CountryListPickState extends State<CountryListPick> {
             useUiOverlay: widget.useUiOverlay,
             useSafeArea: widget.useSafeArea,
           ),
-        ));
-
+        ),
+      ),
+    );
+    print(result);
     setState(() {
       selectedItem = result ?? selectedItem;
       widget.onChanged!(result ?? selectedItem);
@@ -102,7 +142,7 @@ class _CountryListPickState extends State<CountryListPick> {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        //_awaitFromSelectScreen(context, widget.appBar, widget.theme);
+        _awaitFromSelectScreen(context, widget.appBar, widget.theme);
       },
       child: widget.pickerBuilder != null
           ? widget.pickerBuilder!(context, selectedItem)
@@ -143,4 +183,64 @@ class _CountryListPickState extends State<CountryListPick> {
             ),
     );
   }
+}
+
+class FigmaSquircleConst {
+  static const bottomSheetShape = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 18, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(
+        cornerRadius: 18,
+        cornerSmoothing: 0.6,
+      ),
+    ),
+  );
+
+  static const bigScanButton = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 34, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(cornerRadius: 34, cornerSmoothing: 0.6),
+      bottomLeft: SmoothRadius(cornerRadius: 34, cornerSmoothing: 0.6),
+      bottomRight: SmoothRadius(cornerRadius: 34, cornerSmoothing: 0.6),
+    ),
+  );
+
+  static const smallScanButton = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 14, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(cornerRadius: 14, cornerSmoothing: 0.6),
+      bottomLeft: SmoothRadius(cornerRadius: 14, cornerSmoothing: 0.6),
+      bottomRight: SmoothRadius(cornerRadius: 14, cornerSmoothing: 0.6),
+    ),
+  );
+
+  static const itemButton = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 12, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(cornerRadius: 12, cornerSmoothing: 0.6),
+      bottomLeft: SmoothRadius(cornerRadius: 12, cornerSmoothing: 0.6),
+      bottomRight: SmoothRadius(cornerRadius: 12, cornerSmoothing: 0.6),
+    ),
+  );
+
+  static const shareButton = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 28, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(cornerRadius: 28, cornerSmoothing: 0.6),
+      bottomLeft: SmoothRadius(cornerRadius: 28, cornerSmoothing: 0.6),
+      bottomRight: SmoothRadius(cornerRadius: 28, cornerSmoothing: 0.6),
+    ),
+  );
+
+  static const privacyButton = SmoothRectangleBorder(
+    borderRadius: SmoothBorderRadius.only(
+      topLeft: SmoothRadius(cornerRadius: 20, cornerSmoothing: 0.6),
+      topRight: SmoothRadius(cornerRadius: 20, cornerSmoothing: 0.6),
+      bottomLeft: SmoothRadius(cornerRadius: 20, cornerSmoothing: 0.6),
+      bottomRight: SmoothRadius(cornerRadius: 20, cornerSmoothing: 0.6),
+    ),
+  );
+
+  static final SmoothBorderRadius scanCameraPreview = SmoothBorderRadius(cornerRadius: 16, cornerSmoothing: 0.6);
+  static final SmoothBorderRadius photoCameraPreview = SmoothBorderRadius(cornerRadius: 12, cornerSmoothing: 0.6);
 }

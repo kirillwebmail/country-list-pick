@@ -58,6 +58,13 @@
             </list>
           </value>
         </entry>
+        <entry key="figma_squircle">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/figma_squircle-0.5.3/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter">
           <value>
             <list>
@@ -83,6 +90,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="modal_bottom_sheet">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/modal_bottom_sheet-2.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -167,8 +181,10 @@
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/figma_squircle-0.5.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/modal_bottom_sheet-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../tools/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
