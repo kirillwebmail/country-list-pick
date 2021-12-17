@@ -141,6 +141,11 @@ class _CountryListPickState extends State<CountryListPick> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: EdgeInsets.zero,
+          minimumSize: Size(0, 0),
+          alignment: Alignment.center),
       onPressed: () {
         _awaitFromSelectScreen(context, widget.appBar, widget.theme);
       },
