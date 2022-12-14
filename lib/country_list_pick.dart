@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+
 import 'package:country_list_pick/country_selection_theme.dart';
 import 'package:country_list_pick/custom_botom_sheet.dart';
 import 'package:country_list_pick/selection_list.dart';
@@ -10,9 +11,8 @@ import 'package:flutter/material.dart';
 
 import 'support/code_country.dart';
 
-export 'support/code_country.dart';
-
 export 'country_selection_theme.dart';
+export 'support/code_country.dart';
 
 class CountryListPick extends StatefulWidget {
   CountryListPick({this.onChanged, this.initialSelection, this.appBar, this.pickerBuilder, this.countryBuilder, this.theme, this.useUiOverlay = true, this.useSafeArea = false});
@@ -75,7 +75,6 @@ class _CountryListPickState extends State<CountryListPick> {
         child: SafeArea(
           bottom: false,
           child: Container(
-            margin: const EdgeInsets.only(top: 8.0),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: ShapeDecoration(
               shape: FigmaSquircleConst.bottomSheetShape,
