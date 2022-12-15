@@ -7,14 +7,7 @@ import 'package:flutter/services.dart';
 import 'country_list_pick.dart';
 
 class SelectionList extends StatefulWidget {
-  SelectionList(this.elements, this.initialSelection,
-      {Key? key,
-      this.appBar,
-      this.theme,
-      this.countryBuilder,
-      this.useUiOverlay = true,
-      this.useSafeArea = false})
-      : super(key: key);
+  SelectionList(this.elements, this.initialSelection, {Key? key, this.appBar, this.theme, this.countryBuilder, this.useUiOverlay = true, this.useSafeArea = false}) : super(key: key);
 
   final PreferredSizeWidget? appBar;
   final List elements;
@@ -44,6 +37,7 @@ class _SelectionListState extends State<SelectionList> {
   double _offsetContainer = 0.0;
 
   bool isShow = false;
+  bool didPreScroll = false;
 
   @override
   void initState() {
@@ -60,8 +54,7 @@ class _SelectionListState extends State<SelectionList> {
     Navigator.pop(context, initialSelection);
   }
 
-  List _alphabet =
-      List.generate(26, (i) => String.fromCharCode('A'.codeUnitAt(0) + i));
+  List _alphabet = List.generate(26, (i) => String.fromCharCode('A'.codeUnitAt(0) + i));
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +66,20 @@ class _SelectionListState extends State<SelectionList> {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarBrightness: !kIsWeb ? Brightness.dark : Brightness.light,
       ));
+
+    if (!didPreScroll && widget.initialSelection != null) {
+      final index = countries.indexOf(widget.initialSelection);
+      didPreScroll = true;
+      Future.delayed(Duration(milliseconds: 100), () {
+        if (index != -1) {
+          final offset = (_itemsizeheight + 2) * index - (_sizeheightcontainer - 50) / 2;
+          if (offset > 0) {
+            _controllerScroll?.jumpTo(offset);
+          }
+        }
+      });
+    }
+
     height = MediaQuery.of(context).size.height;
     Widget scaffold = Scaffold(
       appBar: widget.appBar,
@@ -90,10 +97,7 @@ class _SelectionListState extends State<SelectionList> {
                 slivers: [
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                      return widget.countryBuilder != null
-                          ? widget.countryBuilder!(
-                              context, countries.elementAt(index))
-                          : getListCountry(countries.elementAt(index));
+                      return widget.countryBuilder != null ? widget.countryBuilder!(context, countries.elementAt(index)) : getListCountry(countries.elementAt(index));
                     }, childCount: countries.length),
                   )
                 ],
@@ -110,8 +114,7 @@ class _SelectionListState extends State<SelectionList> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: []..addAll(
-                            List.generate(_alphabet.length,
-                                (index) => _getAlphabetItem(index)),
+                            List.generate(_alphabet.length, (index) => _getAlphabetItem(index)),
                           ),
                       ),
                     ),
@@ -155,9 +158,7 @@ class _SelectionListState extends State<SelectionList> {
             _text = _alphabet[posSelected];
             if (_text != _oldtext) {
               for (var i = 0; i < countries.length; i++) {
-                if (_text.toString().compareTo(
-                        countries[i].name.toString().toUpperCase()[0]) ==
-                    0) {
+                if (_text.toString().compareTo(countries[i].name.toString().toUpperCase()[0]) == 0) {
                   _controllerScroll!.jumpTo((i * _itemsizeheight) + 10);
                   break;
                 }
@@ -171,24 +172,15 @@ class _SelectionListState extends State<SelectionList> {
           height: 20,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: index == posSelected
-                ? widget.theme?.alphabetSelectedBackgroundColor ?? Colors.blue
-                : Colors.transparent,
+            color: index == posSelected ? widget.theme?.alphabetSelectedBackgroundColor ?? Colors.blue : Colors.transparent,
             shape: BoxShape.circle,
           ),
           child: Text(
             _alphabet[index],
             textAlign: TextAlign.center,
             style: (index == posSelected)
-                ? TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        widget.theme?.alphabetSelectedTextColor ?? Colors.white)
-                : TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: widget.theme?.alphabetTextColor ?? Colors.black),
+                ? TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: widget.theme?.alphabetSelectedTextColor ?? Colors.white)
+                : TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: widget.theme?.alphabetTextColor ?? Colors.black),
           ),
         ),
       ),
@@ -198,30 +190,19 @@ class _SelectionListState extends State<SelectionList> {
   void _filterElements(String s) {
     s = s.toUpperCase();
     setState(() {
-      countries = widget.elements
-          .where((e) =>
-              e.code.contains(s) ||
-              e.dialCode.contains(s) ||
-              e.name.toUpperCase().contains(s))
-          .toList();
+      countries = widget.elements.where((e) => e.code.contains(s) || e.dialCode.contains(s) || e.name.toUpperCase().contains(s)).toList();
     });
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
     setState(() {
-      if ((_offsetContainer + details.delta.dy) >= 0 &&
-          (_offsetContainer + details.delta.dy) <=
-              (_sizeheightcontainer - _heightscroller)) {
+      if ((_offsetContainer + details.delta.dy) >= 0 && (_offsetContainer + details.delta.dy) <= (_sizeheightcontainer - _heightscroller)) {
         _offsetContainer += details.delta.dy;
-        posSelected =
-            ((_offsetContainer / _heightscroller) % _alphabet.length).round();
+        posSelected = ((_offsetContainer / _heightscroller) % _alphabet.length).round();
         _text = _alphabet[posSelected];
         if (_text != _oldtext) {
           for (var i = 0; i < countries.length; i++) {
-            if (_text
-                    .toString()
-                    .compareTo(countries[i].name.toString().toUpperCase()[0]) ==
-                0) {
+            if (_text.toString().compareTo(countries[i].name.toString().toUpperCase()[0]) == 0) {
               _controllerScroll!.jumpTo((i * _itemsizeheight) + 15);
               break;
             }
@@ -237,20 +218,15 @@ class _SelectionListState extends State<SelectionList> {
   }
 
   _scrollListener() {
-    int scrollPosition =
-        (_controllerScroll!.position.pixels / _itemsizeheight).round();
+    int scrollPosition = (_controllerScroll!.position.pixels / _itemsizeheight).round();
     if (scrollPosition < countries.length && scrollPosition > -1) {
       String? countryName = countries.elementAt(scrollPosition).name;
       setState(() {
-        posSelected =
-            countryName![0].toUpperCase().codeUnitAt(0) - 'A'.codeUnitAt(0);
+        posSelected = countryName![0].toUpperCase().codeUnitAt(0) - 'A'.codeUnitAt(0);
       });
     }
 
-    if ((_controllerScroll!.offset) >=
-        (_controllerScroll!.position.maxScrollExtent)) {}
-    if (_controllerScroll!.offset <=
-            _controllerScroll!.position.minScrollExtent &&
-        !_controllerScroll!.position.outOfRange) {}
+    if ((_controllerScroll!.offset) >= (_controllerScroll!.position.maxScrollExtent)) {}
+    if (_controllerScroll!.offset <= _controllerScroll!.position.minScrollExtent && !_controllerScroll!.position.outOfRange) {}
   }
 }
